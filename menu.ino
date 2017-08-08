@@ -22,44 +22,62 @@ void printlnPGM(char *adr, char ln)   // печать строки из памя
 
   if(ln) Serial.println();  
 }
-
-static unsigned char regs[] = {1, 2, 3, 4, 5, 6, 7, 8, 11,12,13,14,15,16,17,18,19,20,24,25,26,28,40,41,42 } ;
+//emax немного все упорядочено
+static unsigned char regs[] = {1, 2, 3, 4, 5, 6, 7, 8, 11,12,13,14,15,16,17,18,19,20,24,25,26,28,31,32,33,34,35,36,37,38,40,41,42 } ;    //emax добавлены 31-38
 
 // Держим текст в программной памяти
 //
+//1-8
 static char help1[] PROGMEM =  "Bind N";
 static char help2[] PROGMEM =  "Freq Corr";
 static char help3[] PROGMEM =  "Servo 150% strech num (1-12)";
 static char help4[] PROGMEM =  "Statistics enable";
-static char help22[] PROGMEM = "11bit/10ch (1=yes, 2/3=Futaba)";
-static char help23[] PROGMEM = "Discrete outputs mask";
-static char help24[] PROGMEM = "1 output mode: PWM/PPM/SBUS = 0/1/2";
+static char help5[] PROGMEM = "11bit/10ch (1=yes, 2/3=Futaba)";
+static char help6[] PROGMEM = "Discrete outputs mask";
+static char help7[] PROGMEM = "1 output mode: PWM/PPM/SBUS = 0/1/2";
 #if (RX_BOARD_TYPE==1)
-static char help25[] PROGMEM = "Packet lost sound output (0=off, 5,6)";  // номера выходов, куда можно вывести звук потерь пакетов
+static char help8[] PROGMEM = "Packet lost sound output (0=off, 5,6)";  // номера выходов, куда можно вывести звук потерь пакетов
 #else
-static char help25[] PROGMEM = "Packet lost sound output (0=off, 1,2,7)";
+static char help8[] PROGMEM = "Packet lost sound output (0=off, 1,2,7)";
 #endif
-static char help5[] PROGMEM =  "Hop F1";
-static char help6[] PROGMEM =  "Hop F2";
-static char help7[] PROGMEM =  "Hop F3";
-static char help8[] PROGMEM =  "Hop F4";
-static char help9[] PROGMEM =  "Hop F5";
-static char help10[] PROGMEM = "Hop F6";
-static char help11[] PROGMEM = "Hop F7";
-static char help12[] PROGMEM = "Hop F8";
-static char help13[] PROGMEM = "Beacon F (255=disable)";
-static char help14[] PROGMEM = "Beacon Pmax (mWt): 0-1.2; 1-2; 2-3; 3-6; 4-12; 5-25; 6-50; 7-100";  
-static char help15[] PROGMEM = "Beacon start time (sec)";
-static char help16[] PROGMEM = "SAW Fmin";
-static char help17[] PROGMEM = "SAW Fmax";
-static char help18[] PROGMEM = "PPM/SBUS mode 1st PWM chnl (1-8) [2]"; 
-static char help19[] PROGMEM = "RSSI type: sound(0)/level(1-99=average)";
-static char help20[] PROGMEM = "RSSI mode: level(0)/SN ratio(1)";
-static char help21[] PROGMEM = "RSSI over PWM(chan:1-12) 0-not use";
+//11-20
+static char help11[] PROGMEM =  "Hop F1";
+static char help12[] PROGMEM =  "Hop F2";
+static char help13[] PROGMEM =  "Hop F3";
+static char help14[] PROGMEM =  "Hop F4";
+static char help15[] PROGMEM =  "Hop F5";
+static char help16[] PROGMEM = "Hop F6";
+static char help17[] PROGMEM = "Hop F7";
+static char help18[] PROGMEM = "Hop F8";
+static char help19[] PROGMEM = "Beacon F (255=disable)";
+static char help20[] PROGMEM = "Beacon Pmax (mWt): 0-1.2; 1-2; 2-3; 3-6; 4-12; 5-25; 6-50; 7-100";  
+//24-26
+static char help24[] PROGMEM = "Beacon start time (sec)";
+static char help25[] PROGMEM = "SAW Fmin";
+static char help26[] PROGMEM = "SAW Fmax";
+//28
+static char help28[] PROGMEM = "PPM/SBUS mode 1st PWM chnl (1-8) [2]"; 
+
+//31-38
+static char help31[] PROGMEM = "Failsafe 1";
+static char help32[] PROGMEM = "Failsafe 2";
+static char help33[] PROGMEM = "Failsafe 3";
+static char help34[] PROGMEM = "Failsafe 4";
+static char help35[] PROGMEM = "Failsafe 5";
+static char help36[] PROGMEM = "Failsafe 6";
+static char help37[] PROGMEM = "Failsafe 7";
+static char help38[] PROGMEM = "Failsafe 8";
+//40-42
+static char help40[] PROGMEM = "RSSI type: sound(0)/level(1-99=average)";
+static char help41[] PROGMEM = "RSSI mode: level(0)/SN ratio(1)";
+static char help42[] PROGMEM = "RSSI over PWM(chan:1-12) 0-not use";
 static char *menuAdr[] = {      // массив адресов строк 
-   help1, help2, help3, help4, help22, help23, help24, help25, help5, help6, help7,
-   help8, help9, help10, help11, help12, help13, help14, help15, help16, help17,
-   help18, help19, help20, help21
+   help1, help2, help3, help4, help5, help6, help7, help8,
+   help11, help12, help13, help14, help15, help16, help17, help18, help19, help20,
+   help24, help25, help26,
+   help28,
+   help31,help32,help33,help34,help35,help36,help37,help38,
+   help40, help41, help42
 };  
 
 
@@ -200,9 +218,9 @@ char mtxt1[] PROGMEM = "To Enter MENU Press ENTER";
 char mtxt2[] PROGMEM = "Type Reg and press ENTER, type Value and press ENTER (q=Quit; ss/sl/sr/sa=Stat)";
 char mtxt3[] PROGMEM = "Rg=Val \tComments -----------------------";
 char mtxt4[] PROGMEM = "Execute rebind? Are you sure(y/n)?";
-
+//----------------------------------------------------------------------------------------
 void showRegs(void)         // показать значения регистров
-{
+{  unsigned int fs_tmp;                                                                                //временная переменная для вывода значений FS
   unsigned char i,j=0,k;
   
   printlnPGM(mtxt3,0);
@@ -212,17 +230,27 @@ void showRegs(void)         // показать значения регистр�
     if(regs[j] == i) {
       Serial.print(i);
       Serial.write('=');
-      Serial.print(read_eeprom_uchar(i));
-      Serial.write('\t');
-      printlnPGM(menuAdr[j]);   // читаем строки из программной памяти
+      if ((i<30) || (i>39))                                                                              //emax если регистры старые
+        {                                                                                                //emax то выводим их, как раньше
+        Serial.print(read_eeprom_uchar(i));
+        Serial.write('\t');
+        }
+      else                                                                                                //emax а если новые, то выводим значения FS
+        {
+        fs_tmp=(EEPROM.read(FS_EEPROM_ADR+(2*(i-31))) * 256) + EEPROM.read(FS_EEPROM_ADR+(2*(i-31))+1);  
+        if(fs_tmp < 1760 || fs_tmp > 4240) fs_tmp=3000;                                                   // защита от некорретных данных
+        Serial.print(fs_tmp/2);
+        Serial.write('\t');
+        }   
+      printlnPGM(menuAdr[j]);   // читаем строки из программной памяти emax вывод подсказок
       j++;
     }
   }
 }
-
+//----------------------------------------------------------------------------------------
 
 void doMenu()                       // работаем с меню
-{
+{  unsigned int fs_tmp;                                                                                //временная переменная для вывода значений FS
   char str[12];
   int reg,val;
 
@@ -265,12 +293,22 @@ rep:
     getStr(str);
     if(str[0] == 'q' || str[0] == 'Q') return;     // Q - то quit
     val=atoi(str);
-    if(val<0 || val>255) continue; 
-    if(reg == 0 && val ==0) continue;              // избегаем потери s/n
+    if (reg<30 || reg>39)                                                                                //emax если регистры старые
+      {                                                                                                  //emax то вводим их, как раньше
+      if(val<0 || val>255) continue; 
+      if(reg == 0 && val ==0) continue;              // избегаем потери s/n
+      Serial.print(reg); Serial.write('=');   Serial.println(val);  // Отобразим полученное
+      write_eeprom_uchar(reg,val);  // пишем регистр
+      }     
+   else                                                                                                  //emax а если новые, то ввводим значения FS
+      {  
+      if(val<880 || val>2120) continue;                                                                  // защита от ввода некорретных данных
+      Serial.print(reg); Serial.write('=');   Serial.println(val);                                       // Отобразим полученное
+      fs_tmp=val*2;
+      EEPROM.write(FS_EEPROM_ADR+(2*(reg-31)),fs_tmp / 256); 
+      EEPROM.write(FS_EEPROM_ADR+1+(2*(reg-31)),fs_tmp & 0xFF);       
+      }
 
-    Serial.print(reg); Serial.write('=');   Serial.println(val);  // Отобразим полученное
-    
-     write_eeprom_uchar(reg,val);  // пишем регистр
      read_eeprom();                // читаем из EEPROM    
      write_eeprom();               // и тут-же пишем, что-бы сформировать КС 
   }    
